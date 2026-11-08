@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>নাগরিক সনদপত্র যাচাই | Citizen Certificate Verification</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 42px 16px;
+    min-height: 100vh;
+    background: #eef2f8;
+    color: #333;
+    font-family: Arial, "Noto Sans Bengali", "SolaimanLipi", sans-serif;
+  }
+  .certificate {
+    position: relative;
+    isolation: isolate;
+    width: min(100%, 615px);
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(25, 48, 77, .12);
+  }
+  .header {
+    min-height: 156px;
+    padding: 22px 16px 20px;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(115deg, #1260d0, #104895);
+  }
+  .seal {
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 9px;
+    border: 2px solid rgba(255,255,255,.9);
+    border-radius: 12px;
+    background: #fff;
+    color: #1760a4;
+    font-size: 25px;
+    font-weight: bold;
+  }
+  .header h1 {
+    margin: 0 0 4px;
+    font-size: 21px;
+    font-weight: 700;
+  }
+  .header p { margin: 0; font-size: 12px; opacity: .95; }
+  .valid {
+    padding: 31px 16px 25px;
+    text-align: center;
+    color: #21865d;
+    background: #effcf5;
+    border-bottom: 1px solid #d8f1e3;
+  }
+  .check {
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #21865d;
+    color: white;
+    font-size: 31px;
+    font-weight: bold;
+  }
+  .valid h2 { margin: 0 0 8px; font-size: 23px; }
+  .valid p { margin: 0; color: #77827d; font-size: 12px; }
+  .valid strong { color: #1761b5; }
+  .content { position: relative; padding: 19px 15px 0; }
+  .municipality {
+    position: relative;
+    z-index: 1;
+    padding: 16px 10px 18px;
+    text-align: center;
+    border-left: 4px solid #1762c9;
+    border-right: 4px solid #1762c9;
+    border-radius: 13px;
+    background: #e9f1ff;
+    box-shadow: inset 0 0 0 1px #d7e5fb;
+  }
+  .municipality .eyebrow {
+    margin: 0 0 7px;
+    color: #244f89;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .4px;
+  }
+  .municipality h2 {
+    margin: 0 0 6px;
+    color: #174b91;
+    font-size: clamp(21px, 5vw, 30px);
+    line-height: 1.2;
+  }
+  .municipality h3 {
+    margin: 0;
+    color: #102f5b;
+    font-size: clamp(20px, 4.5vw, 26px);
+  }
+  .details-title {
+    position: relative;
+    z-index: 1;
+    margin: 32px 0 12px;
+    padding-left: 10px;
+    border-left: 4px solid #1762c9;
+    color: #2868ad;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .details-title span { margin-right: 7px; }
+  .details { position: relative; z-index: 1; }
+  .detail-row {
+    display: grid;
+    grid-template-columns: 34% 66%;
+    align-items: center;
+    min-height: 59px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eceff2;
+    gap: 8px;
+  }
+  .label {
+    color: #62686c;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .value { color: #383b3e; font-size: 13px; line-height: 1.55; }
+  .bangla { display: block; color: #8a8d90; font-size: 12px; }
+  .watermark {
+    position: absolute;
+    z-index: 0;
+    top: 49%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-25deg);
+    color: rgba(32, 142, 104, .13);
+    border: 7px solid rgba(32, 142, 104, .12);
+    padding: 4px 18px;
+    font-size: clamp(48px, 13vw, 90px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .footer {
+    position: relative;
+    z-index: 1;
+    margin-top: 7px;
+    padding: 17px 12px 15px;
+    text-align: center;
+    background: #fafafa;
+    color: #85898d;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .footer .print { color: #747b80; margin-right: 5px; }
+  @media (max-width: 420px) {
+    body { padding: 24px 10px; }
+    .header { min-height: 145px; }
+    .detail-row { grid-template-columns: 35% 65%; }
+    .label { font-size: 10px; }
+    .value { font-size: 12px; }
+  }
+  @media print {
+    body { padding: 0; background: #fff; }
+    .certificate { width: 100%; box-shadow: none; border-radius: 0; }
+  }
+</style>
+
+</head>
+<body>
+  <main class="certificate" >
+    <header class="header">
+      <div class="seal" aria-label="Municipality seal">
+  <img
+    src="https://nagoriksonod.com/uploads/organization_logos/11719_1778267793.png"
+    alt="Sonaimuri Municipality Logo"
+    style="width: 93%; height: 93%; object-fit: contain; display: block;"
+  >
+</div>
+      <h1>নাগরিক সনদপত্র যাচাই</h1>
+      <p>Citizen Certificate Verification Portal</p>
+    </header>
+
+    <section class="valid">
+      <div class="check">✓</div>
+      <h2>Valid Certificate</h2>
+      <p>বৈধ সনদপত্র — issued by <strong>Sonaimuri Municipality (সোনাইমুড়ী পৌরসভা)</strong></p>
+    </section>
+
+    <section class="content">
+      <div class="watermark">VERIFIED</div>
+
+      
+
+      <h2 class="details-title"><span>▣</span> Certificate Details</h2>
+
+      <div class="details">
+        <div class="detail-row">
+          <div class="label">CERTIFICATE NO</div>
+          <div class="value"><strong>CIT-11719-2026-00984</strong></div>
+        </div>
+        <div class="detail-row">
+          <div class="label">ISSUE DATE</div>
+          <div class="value">July 08, 2026<span class="bangla">০৮ জুলাই ২০২৬ খ্রি.</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="label">FULL NAME</div>
+          <div class="value">FATEMA AKTER <span class="bangla">ফাতেমা আক্তার
+</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="label">FATHER'S NAME</div>
+          <div class="value">MD HANIF<span class="bangla"></span>মোঃ হানিফ</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="label">DATE OF BIRTH</div>
+          <div class="value">SEPTEMBER 01, 1997<span class="bangla"> সেপ্টম্বর ০১, ১৯৯৭ খ্রি.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span class="print">▣</span>This is a computer-generated certificate. No signature required.<br>
+      Issued by: সোনাইমুড়ী পৌরসভা
+    </footer>
+  </main>
+</body>
+</html>
